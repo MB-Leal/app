@@ -1,34 +1,316 @@
-// server.js
-// where your node app starts
-
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+const mysql = require ('mysql');
+const buscaCep = require("busca-cep");
+const nodemailer = require('nodemailer');
 
-// our default array of dreams
 const dreams = [
   "Find and count some sheep",
   "Climb a really tall mountain",
   "Wash the dishes"
 ];
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
+
 app.use(express.static("public"));
 
-// https://expressjs.com/en/starter/basic-routing.html
+
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-// send the default array of dreams to the webpage
+app.post("/Meurobo", function(request, response) {
+var intentName = request.body.queryResult.intent.displayName;
+ var connection = mysql.createConnection({
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASS,
+  database: process.env.MYSQL_DB 
+ });
+ //connection.connect();
+ connection.connect(function(error) {
+    if (error) {
+      throw error;
+      response.json({ fulfillmentText: "⚙ Erro de Conexão com o BD! Tente novamente em instantes!"
+      });
+    }
+  });
+
+  
+if(intentName == "Teste"){
+  response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
+} 
+  
+  if(intentName == 'Adicionar_contato'){ 
+    console.log('Adicionar Contato') 
+    var NomeContato = request.body.queryResult.parameters['nome']; 
+    var TelefoneContato = request.body.queryResult.parameters['telefone']; 
+    var query = 'insert into cadastro values ("'+NomeContato+'","'+TelefoneContato+'")'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end(); 
+      response.json({"fulfillmentText" :"Contato Adicionado com Sucesso!" }) 
+    }); 
+  }else if(intentName == 'Excluir_contato'){ 
+    console.log('Excluir_contato') 
+    var TelefoneContato = request.body.queryResult.parameters['telefone']; 
+    var query = 'delete from cadastro where telefone = "'+TelefoneContato+'"'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end(); 
+      response.json({"fulfillmentText":"Contato Apagado com Sucesso!" }) 
+    }); 
+  }else if(intentName == 'Pesquisar_contato'){ 
+    console.log('Pesquisar Contato'); 
+    var TelefoneContato = request.body.queryResult.parameters['telefone'];    
+    var query = 'select * from cadastro where cadastro.telefone = "'+TelefoneContato+'"'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end(); 
+      var contato = ''; 
+      contato = 'Nome: '+results[0].nome+"\n"+'Telefone: '+results[0].telefone; 
+      response.json({"fulfillmentText": contato }) 
+    }); 
+  }
+  
+  if(intentName == 'Listar_contatos'){ 
+    console.log('Listar Contatos'); 
+    //var TelefoneContato = request.body.queryResult.parameters['telefone'];    
+    var query = 'select * from cadastro '; 
+    connection.query(query, function (error, results, fields) { 
+      //if (error) throw error; 
+      //connection.end(); 
+      if (results.length == 0) {
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei com esta incidência ! Digite Listar novamente. "
+        });
+      }else {
+        var fQtReg = results.length;
+        var fLstReg = "";
+        for (var x = 0; x < fQtReg; x++) {
+          fLstReg += " 📒 *Nome:* " + results[x].nome + "\n *Telefone:* " + results[x].telefone + "\n";
+        }
+        fLstReg += "------------------------------------------\n\n";
+        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
+        response.json({ fulfillmentText: fLstReg });
+      }
+      connection.end();
+    });
+  }
+     //Mostrar data
+  if(intentName == "Saber_data"){
+    var data = new Date();
+    // Guarda cada pedaço em uma variável
+    var dia     = data.getDate();           // 1-31
+    var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+    var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+    var ano2    = data.getYear();           // 2 dígitos
+    var ano4    = data.getFullYear();       // 4 dígitos
+    var hora    = data.getHours();          // 0-23
+    var min     = data.getMinutes();        // 0-59
+    var seg     = data.getSeconds();        // 0-59
+    var mseg    = data.getMilliseconds();   // 0-999
+    var tz      = data.getTimezoneOffset(); // em minutos
+
+    // Formata a data e a hora (note o mês + 1)
+    var str_data = dia + '/' + (mes+1) + '/' + ano4;
+    var str_hora = hora + ':' + min + ':' + seg;
+   
+  response.json({ "fulfillmentText" : "Data: "+str_data+" Hora: "+str_hora});
+}
+  //Pesquisar CEP
+  
+  if (intentName == "Pesquisar_cep") {
+    var CEP = request.body.queryResult.parameters["cep"];
+    buscaCep(CEP, { sync: false, timeout: 1000 }).then(endereco => {
+      var local = endereco.logradouro +" - "+ endereco.bairro +"\n"+ endereco.localidade +" - "+ endereco.uf +"\n"+ endereco.cep;
+      response.json({ "fulfillmentText" : "Ok, seu CEP está confirmado:" + "\n" + local});
+});
+}
+  
+if(intentName == 'Enviar_email'){
+  var destinatario = request.body.queryResult.parameters["email"];
+  //var destinatario = request.body.queryResult.parameters["destinatario"];
+  var assunto = request.body.queryResult.parameters["assunto"];
+  var mensagem = request.body.queryResult.parameters["mensagem"];
+  var nodemailer = require('nodemailer');
+  
+  var transporte = nodemailer.createTransport({
+    service: 'Outlook', //servidor a ser usado
+    auth: {
+      user: process.env.user, // dizer qual o usuário
+      pass: process.env.pass // senha da conta
+      }
+    });
+  
+  var email = {
+    from: process.env.user, // Quem enviou este e-mail
+    to: destinatario, // Quem receberá
+    subject: assunto, // Um assunto
+    html: mensagem // O conteúdo do e-mail
+    };
+  
+  transporte.sendMail(email, function(error, info){
+    if(error)
+      console.log (error);
+    throw error; // algo de errado aconteceu.
+    //console.log('Email enviado! Leia as informações adicionais: '+ info);
+    response.json({ "fulfillmentText" : "Email enviado! Leia as informações adicionais " + info});
+    });
+  }
+  
+  
+});
+
+
 app.get("/dreams", (request, response) => {
   // express helps us take JS objects and send them as JSON
   response.json(dreams);
 });
 
-// listen for requests :)
+
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
+
+
+
+//---------------------------------------------------------------------
+
+
+    
+/*
+  if (NomedaIntent == "3_Listar") {
+    var fnome = request.body.queryResult.parameters["nome"];
+    if (fnome == "*")
+      var fQuery = "select * from tb_cliente order by nome";
+    else
+      var fQuery = 'select * from tb_cliente where nome like "%' + fnome + '%" order by nome';
+
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.length == 0) {
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei com esta incidência ! Digite Listar novamente. "
+        });
+      } else {
+        var fQtReg = results.length;
+        var fLstReg = "";
+        for (var x = 0; x < fQtReg; x++) {
+          fLstReg +=
+            " 📒 Nome: " +
+            results[x].nome +
+            " CPF: " +
+            results[x].numcpf +
+            " Telefone: " +
+            results[x].telefone +
+            "\n";
+        }
+        fLstReg += "---------------------------\n\n";
+        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
+        response.json({ fulfillmentText: fLstReg });
+      }
+      connection.end();
+    });
+  }
+
+  if (NomedaIntent == "4_Excluir") {
+    var fnome = request.body.queryResult.parameters["nome"];
+    var fQuery = 'delete from tb_cliente where nome = "' + fnome + '"';
+
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.affectedRows == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei! Digite Pesquisar para verificar se o nome realmente existe."
+        });
+      else
+        response.json({
+          fulfillmentText: "" + fnome + " foi excluido com sucesso!"
+        });
+
+      connection.end();
+    });
+  }
+
+  if (NomedaIntent == "5_Atualizar") {
+    var fnome = request.body.queryResult.parameters["nome"];
+    var fQuery = 'select * from tb_cliente where nome = "' + fnome + '"';
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.length == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei! Digite Pesquisar para verificar se o nome realmente existe."
+        });
+      else {
+        var contato =
+          "Deseja alterra os dados de *" +
+          fnome +
+          "*" +
+          " os são CPF=" +
+          results[0].numcpf +
+          ", Telefone=" +
+          results[0].telefone +
+          "\n [SIM] ou [NÂO]";
+        response.json({ fulfillmentText: contato });
+      }
+      connection.end();
+    });
+  }
+
+  if (NomedaIntent == "5_Atualizar_Sim") {
+    var fnome = request.body.queryResult.outputContexts[0].parameters["nome"];
+    var fnumcpf = request.body.queryResult.parameters["cpf"];
+    var ftelefone = request.body.queryResult.parameters["telefone"];
+    var fQuery =
+      'update tb_cliente set numcpf="' +
+      fnumcpf +
+      '", telefone="' +
+      ftelefone +
+      '" where nome = "' +
+      fnome +
+      '"';
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.changedRows == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ ocorreu um erro inesperado(51) ! Tente novamente, digite Atualizar."
+        });
+      else {
+        var contato =
+          "*" +
+          fnome +
+          "*" +
+          ", agora seu NOVO CPF é " +
+          fnumcpf +
+          ", e seu NOVO TELEFONE é " +
+          ftelefone;
+        response.json({ fulfillmentText: contato });
+      }
+      connection.end();
+    });
+  }
+
+  if (NomedaIntent == "5_Atualizar_Nao") {
+    response.json({ fulfillmentText: "🤖 Ok! Os Dados não atualizado!!" });
+  }
+
+  if (NomedaIntent == "0_Encerrar") {
+    response.json({
+      fulfillmentText:
+        "🤖 Conexão encerrada! Obrigado por Interagir aqui " + VerCanal()
+    });
+    connection.end();
+  }
+
+  function VerCanal() {
+    var fNomeCanal = "no " + agent.requestSource;
+    if (agent.requestSource == null) fNomeCanal = "neste canal !";
+
+    return fNomeCanal;
+  }
+});*/
+
