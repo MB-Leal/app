@@ -52,12 +52,13 @@ if(intentName == "Teste"){
       var str_data = ano + '-' + (mes+1) + '-' + dia;
       
       var fQuery = 'select * from delivery where data like %'+str_data+'% ORDER BY delivery.nome ASC';
-    connection.query(fQuery, function(error, results, fields) {
-      if (results.length == 0) {
-        response.json({
+       connection.query(fQuery, function(error, results, fields) {
+         if (results.length == 0) {
+           response.json({
           fulfillmentText:
             "⚠ Não localizei com esta incidência ! Digite Listar novamente. "
-        });
+             });
+           
       } else {
         var fQtReg = results.length;
         var fLstReg = "";
