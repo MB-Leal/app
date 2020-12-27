@@ -77,13 +77,17 @@ if(intentName == "Teste"){
     if (nome == "*")
       var fQuery = "select * from delivery order by nome asc";
     else
+      var data = new Date();
+      var dia = data.getDate();
+      var mes = data.getMonth();
+      var ano = data.getFullYear();
       var fQuery = 'select * from delivery where nome like "%' + nome + '%" order by nome asc';
     
     connection.query(fQuery, function(error, results, fields) {
       if (results.length == 0) {
         response.json({
           fulfillmentText:
-            "⚠ Não localizei com esta incidência ! Digite Listar novamente. "
+            "⚠ Não localizei *nenhum* pedido com esse nome ! "
         });
       } else {
         var fQtReg = results.length;
@@ -92,10 +96,12 @@ if(intentName == "Teste"){
           fLstReg +=
             " 📒 Nome: " +
             results[x].nome +
-            " Pedido: " +
-            results[x].produto +
             " Telefone: " +
             results[x].telefone +
+            " Pedido: " +
+            results[x].produto +
+            " Status: " +
+            results[x].status +
             "\n";
         }
         fLstReg += "---------------------------\n\n";
