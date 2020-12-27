@@ -51,7 +51,7 @@ if(intentName == "Teste"){
       var ano = data.getFullYear();
       var str_data = ano + '-' + (mes+1) + '-' + dia;
       
-      var fQuery = 'select * from delivery where data like %'+str_data+'% ORDER BY delivery.nome ASC';
+      var fQuery = 'select * from delivery where data like %'+str_data+'% and delivery.nome = '+nome+' ORDER BY delivery.nome ASC';
        connection.query(fQuery, function(error, results, fields) {
          if (results.length == 0) {
            response.json({
@@ -62,7 +62,7 @@ if(intentName == "Teste"){
              var fQtReg = results.length;
              var fLstReg = "";
              for (var x = 0; x < fQtReg; x++) {
-               fLstReg +=" 📒 Nome: " +results[x].nome +" CPF: " +results[x].numcpf +" Telefone: " +results[x].telefone +"\n";
+               fLstReg +=" 📒 Nome: " +results[x].nome +" Telefone: " +results[x].telefone +" Pedido: " +results[x].produto +"\n";
                }
              fLstReg += "---------------------------\n\n";
              fLstReg += "☑️ " + fQtReg + " Registros encontrados";
