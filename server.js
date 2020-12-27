@@ -45,17 +45,13 @@ if(intentName == "Teste"){
    //==============================================================================================================
     if (intentName == "Atendimento_inicial - consultar_pedido") {
     var nome = request.body.queryResult.parameters["nome"];
-    if (nome == "*"){
       //var data = new Date();
       var dia     = data.getDate();
       var mes     = data.getMonth();
       var ano    = data.getFullYear();
       var str_data = ano + '-' + (mes+1) + '-' + dia;
       
-      var fQuery = 'select * from delivery order by nome where data like "%' + str_data + ';
-    }else {
-      var fQuery = 'select * from delivery where nome like "%' + fnome + '%" order by nome';
-    }
+      var fQuery = 'select * from delivery order by nome where data like '+str_data+'';
 
     connection.query(fQuery, function(error, results, fields) {
       if (results.length == 0) {
