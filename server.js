@@ -86,6 +86,31 @@ if(intentName == "Teste"){
       connection.end();
     });
   }
+  if (intentName == "Atendimento_inicial - alterar_pedido") {
+    
+    var telefone = request.body.queryResult.parameters["telefone"];
+    var fQuery = 'select * from delivery where telefone = "' + telefone + '"';
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.length == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei seu pedido!"
+        });
+      else {
+        var contato =
+          "Deseja alterra os dados de *" +
+          telefone +
+          "*" +
+          " os são nome=" +
+          results[0].nome +
+          ", Telefone=" +
+          results[0].telefone +
+          "\n [SIM] ou [NÂO]";
+        response.json({ fulfillmentText: contato });
+      }
+      connection.end();
+    });
+  }
   
   
   //==============================================================================================================
