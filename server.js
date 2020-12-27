@@ -89,7 +89,14 @@ if(intentName == "Teste"){
   if (intentName == "Atendimento_inicial - alterar_pedido") {
     
     var telefone = request.body.queryResult.parameters["telefone"];
-    var fQuery = 'select * from delivery where telefone = "' + telefone + '"';
+    var data = new Date();
+    var dia = data.getDate();
+    var mes = data.getMonth();
+    var ano = data.getFullYear();
+    var str_data = ano + '-' + (mes+1) + '-' + dia;
+    
+    var fQuery = 'select * from delivery where telefone like "%' + telefone + '%"and data like "'+str_data+'%" order by nome asc'
+    //var fQuery = 'select * from delivery where telefone = "' + telefone + '"';
     connection.query(fQuery, function(error, results, fields) {
       if (results.length == 0)
         response.json({
@@ -97,11 +104,7 @@ if(intentName == "Teste"){
             "⚠ Não localizei seu pedido!"
         });
       else {
-        var contato =
-          "Deseja alterra os dados de *" +
-          telefone +
-          "*" +
-          " os são nome=" +
+        var contato ="Deseja alterra os dados de *" +telefone +"*" + " os são nome=" +
           results[0].nome +
           ", Telefone=" +
           results[0].telefone +
@@ -170,7 +173,6 @@ if(intentName == "Teste"){
      //Mostrar data
   if(intentName == "Saber_data"){
     var data = new Date();
-    // Guarda cada pedaço em uma variável
     var dia     = data.getDate();           // 1-31
     var dia_sem = data.getDay();            // 0-6 (zero=domingo)
     var mes     = data.getMonth();          // 0-11 (zero=janeiro)
