@@ -46,12 +46,14 @@ if(intentName == "Teste"){
     if (intentName == "Atendimento_inicial - consultar_pedido") {
     var nome = request.body.queryResult.parameters["nome"];
       //var data = new Date();
-      var dia     = data.getDate();
-      var mes     = data.getMonth();
-      var ano    = data.getFullYear();
+      var dia = data.getDate();
+      var mes = data.getMonth();
+      var ano = data.getFullYear();
       var str_data = ano + '-' + (mes+1) + '-' + dia;
       
       var fQuery = 'select * from delivery order by nome where data like '+str_data+'';
+      select * from delivery where data like '2020-12-27%' ORDER BY delivery.nome ASC
+
 
     connection.query(fQuery, function(error, results, fields) {
       if (results.length == 0) {
