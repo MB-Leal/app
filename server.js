@@ -46,12 +46,12 @@ if(intentName == "Teste"){
     if (intentName == "Atendimento_inicial - consultar_pedido") {
     var nome = request.body.queryResult.parameters["nome"];
       //var data = new Date();
-      var dia = data.getDate();
+      /*var dia = data.getDate();
       var mes = data.getMonth();
       var ano = data.getFullYear();
-      var str_data = ano + '-' + (mes+1) + '-' + dia;
-      
-      var fQuery = 'select * from delivery where data like "%'+str_data+'%" and delivery.nome = '+nome+' ORDER BY delivery.nome ASC';
+      var str_data = ano + '-' + (mes+1) + '-' + dia;    */  
+      //var fQuery = 'select * from delivery where data like "%'+str_data+'%" and delivery.nome = '+nome+' ORDER BY delivery.nome ASC';
+      var fQuery = 'select * from delivery where delivery.data like "%'+str_data+'%" and delivery.nome = "'+nome+'" ORDER BY delivery.nome ASC';
        connection.query(fQuery, function(error, results, fields) {
          if (results.length == 0) {
            response.json({
@@ -125,8 +125,6 @@ if(intentName == "Teste"){
         for (var x = 0; x < fQtReg; x++) {
           fLstReg += " 📒 *Nome:* " + results[x].nome + "\n *Telefone:* " + results[x].telefone + "\n";
         }
-        fLstReg += "------------------------------------------\n\n";
-        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
         response.json({ fulfillmentText: fLstReg });
       }
       connection.end();
@@ -210,10 +208,7 @@ const listener = app.listen(process.env.PORT, () => {
 
 
 
-//---------------------------------------------------------------------
-
-
-    
+//---------------------------------------------------------------------    
 /*
   if (NomedaIntent == "3_Listar") {
     var fnome = request.body.queryResult.parameters["nome"];
@@ -345,4 +340,3 @@ const listener = app.listen(process.env.PORT, () => {
     return fNomeCanal;
   }
 });*/
-
