@@ -58,27 +58,19 @@ if(intentName == "Teste"){
           fulfillmentText:
             "⚠ Não localizei com esta incidência ! Digite Listar novamente. "
              });
-           
-      } else {
-        var fQtReg = results.length;
-        var fLstReg = "";
-        for (var x = 0; x < fQtReg; x++) {
-          fLstReg +=
-            " 📒 Nome: " +
-            results[x].nome +
-            " CPF: " +
-            results[x].numcpf +
-            " Telefone: " +
-            results[x].telefone +
-            "\n";
-        }
-        fLstReg += "---------------------------\n\n";
-        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
-        response.json({ fulfillmentText: fLstReg });
+           } else {
+             var fQtReg = results.length;
+             var fLstReg = "";
+             for (var x = 0; x < fQtReg; x++) {
+               fLstReg +=" 📒 Nome: " +results[x].nome +" CPF: " +results[x].numcpf +" Telefone: " +results[x].telefone +"\n";
+               }
+             fLstReg += "---------------------------\n\n";
+             fLstReg += "☑️ " + fQtReg + " Registros encontrados";
+             response.json({ fulfillmentText: fLstReg });
+             }
+         connection.end();
+         });
       }
-      connection.end();
-    });
-  }
 
   
   
