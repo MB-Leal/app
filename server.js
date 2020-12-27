@@ -51,7 +51,7 @@ if(intentName == "Teste"){
       var ano = data.getFullYear();
       var str_data = ano + '-' + (mes+1) + '-' + dia;
       
-      var fQuery = 'select * from delivery where data like %'+str_data+'% and delivery.nome = '+nome+' ORDER BY delivery.nome ASC';
+      var fQuery = 'select * from delivery where data like "%'+str_data+'%" and delivery.nome = '+nome+' ORDER BY delivery.nome ASC';
        connection.query(fQuery, function(error, results, fields) {
          if (results.length == 0) {
            response.json({
