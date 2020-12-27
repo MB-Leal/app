@@ -104,11 +104,41 @@ if(intentName == "Teste"){
             "⚠ Não localizei seu pedido!"
         });
       else {
-        var contato ="Deseja alterra os dados de *" +telefone +"*" + " os são nome=" +
-          results[0].nome +
-          ", Telefone=" +
-          results[0].telefone +
+        var contato ="Deseja alterra os dados de " +telefone +" que são nome= " + results[0].nome +
+          ", Pedido=" + results[0].produto +
           "\n [SIM] ou [NÂO]";
+        response.json({ fulfillmentText: contato });
+      }
+      connection.end();
+    });
+  }
+   if (intentName == "5_Atualizar_Sim") {
+    var fnome = request.body.queryResult.outputContexts[0].parameters["nome"];
+    var fnumcpf = request.body.queryResult.parameters["cpf"];
+    var ftelefone = request.body.queryResult.parameters["telefone"];
+    var fQuery =
+      'update tb_cliente set numcpf="' +
+      fnumcpf +
+      '", telefone="' +
+      ftelefone +
+      '" where nome = "' +
+      fnome +
+      '"';
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.changedRows == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ ocorreu um erro inesperado(51) ! Tente novamente, digite Atualizar."
+        });
+      else {
+        var contato =
+          "*" +
+          fnome +
+          "*" +
+          ", agora seu NOVO CPF é " +
+          fnumcpf +
+          ", e seu NOVO TELEFONE é " +
+          ftelefone;
         response.json({ fulfillmentText: contato });
       }
       connection.end();
