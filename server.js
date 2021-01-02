@@ -38,6 +38,18 @@ var intentName = request.body.queryResult.intent.displayName;
     }
   });
   
+  if(intentName == 'Adicionar_contato'){ 
+    console.log('Adicionar Contato') 
+    var nomeContato = request.body.queryResult.parameters['nome'];
+    var cpf = request.body.queryResult.parameters['cpf'];
+    var telefoneContato = request.body.queryResult.parameters['telefone']; 
+    var query = 'insert into tb_cliente values (NULL,"'+nomeContato+'","'+cpf+'","'+telefoneContato+'")'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end(); 
+      response.json({"fulfillmentText" :"Contato Adicionado com Sucesso!" }) 
+    }); 
+  }
   if (intentName == "3_Listar") {
     var fnome = request.body.queryResult.parameters["nome"];
     if (fnome == "*")
