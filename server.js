@@ -80,8 +80,7 @@ if(intentName == "Teste"){
         }
         fLstReg += "---------------------------\n\n";
         fLstReg += "☑️ " + fQtReg + " Registros encontrados";
-        response.json({ fulfillmentText: fLstReg });
-        //response.json({ fulfillmentText: str_data });        
+        response.json({ fulfillmentText: fLstReg });        
       }
       connection.end();
     });
@@ -104,15 +103,14 @@ if(intentName == "Teste"){
             "⚠ Não localizei seu pedido!"
         });
       else {
-        var contato ="Deseja alterra os dados de " +telefone +" que são nome= " + results[0].nome +
-          ", Pedido=" + results[0].produto +
-          "\n [SIM] ou [NÂO]";
-        response.json({ fulfillmentText: contato });
+        var dados ="Deseja alterra os dados de "+ results[0].nome +"? SIM ou NÃO";
+        response.json({ fulfillmentText: dados });
       }
       connection.end();
     });
   }
-   if (intentName == "5_Atualizar_Sim") {
+  
+   if (intentName == "Atualizar_Sim") {
     var fnome = request.body.queryResult.outputContexts[0].parameters["nome"];
     var fnumcpf = request.body.queryResult.parameters["cpf"];
     var ftelefone = request.body.queryResult.parameters["telefone"];
