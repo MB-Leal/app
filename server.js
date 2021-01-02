@@ -37,8 +37,134 @@ var intentName = request.body.queryResult.intent.displayName;
       });
     }
   });
-
   
+  if (intentName == "3_Listar") {
+    var fnome = request.body.queryResult.parameters["nome"];
+    if (fnome == "*")
+      var fQuery = "select * from tb_cliente order by nome";
+    else
+      var fQuery = 'select * from tb_cliente where nome like "%' + fnome + '%" order by nome';
+
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.length == 0) {
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei com esta incidência ! Digite Listar novamente. "
+        });
+      } else {
+        var fQtReg = results.length;
+        var fLstReg = "";
+        for (var x = 0; x < fQtReg; x++) {
+          fLstReg +=
+            " 📒 Nome: " +
+            results[x].nome +
+            " CPF: " +
+            results[x].numcpf +
+            " Telefone: " +
+            results[x].telefone +
+            "\n";
+        }
+        fLstReg += "---------------------------\n\n";
+        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
+        response.json({ fulfillmentText: fLstReg });
+      }
+      connection.end();
+    });
+  }
+
+  if (intentName == "4_Excluir") {
+    var fnome = request.body.queryResult.parameters["nome"];
+    var fQuery = 'delete from tb_cliente where nome = "' + fnome + '"';
+
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.affectedRows == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei! Digite Pesquisar para verificar se o nome realmente existe."
+        });
+      else
+        response.json({
+          fulfillmentText: "" + fnome + " foi excluido com sucesso!"
+        });
+
+      connection.end();
+    });
+  }
+
+  if (intentName == "5_Atualizar") {
+    var fnome = request.body.queryResult.parameters["nome"];
+    var fQuery = 'select * from tb_cliente where nome = "' + fnome + '"';
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.length == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei! Digite Pesquisar para verificar se o nome realmente existe."
+        });
+      else {
+        var contato =
+          "Deseja alterra os dados de *" +
+          fnome +
+          "*" +
+          " os são CPF=" +
+          results[0].numcpf +
+          ", Telefone=" +
+          results[0].telefone +
+          "\n [SIM] ou [NÂO]";
+        response.json({ fulfillmentText: contato });
+      }
+      connection.end();
+    });
+  }
+
+  if (intentName == "5_Atualizar_Sim") {
+    var fnome = request.body.queryResult.outputContexts[0].parameters["nome"];
+    var fnumcpf = request.body.queryResult.parameters["cpf"];
+    var ftelefone = request.body.queryResult.parameters["telefone"];
+    var fQuery =
+      'update tb_cliente set numcpf="' +
+      fnumcpf +
+      '", telefone="' +
+      ftelefone +
+      '" where nome = "' +
+      fnome +
+      '"';
+    connection.query(fQuery, function(error, results, fields) {
+      if (results.changedRows == 0)
+        response.json({
+          fulfillmentText:
+            "⚠ ocorreu um erro inesperado(51) ! Tente novamente, digite Atualizar."
+        });
+      else {
+        var contato =
+          "*" +
+          fnome +
+          "*" +
+          ", agora seu NOVO CPF é " +
+          fnumcpf +
+          ", e seu NOVO TELEFONE é " +
+          ftelefone;
+        response.json({ fulfillmentText: contato });
+      }
+      connection.end();
+    });
+  }
+
+  if (intentName == "5_Atualizar_Nao") {
+    response.json({ fulfillmentText: "🤖 Ok! Os Dados não atualizado!!" });
+  }
+
+  if (intentName== "0_Encerrar") {
+    response.json({
+      fulfillmentText:
+        "🤖 Conexão encerrada! Obrigado por Interagir aqui "
+    });
+    connection.end();
+  }
+
+ 
+});
+
+  /*
 if(intentName == "Teste"){
   response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
 }
@@ -261,7 +387,7 @@ if(intentName == 'Enviar_email'){
   
   
 });
-
+*/
 
 app.get("/dreams", (request, response) => {
   // express helps us take JS objects and send them as JSON
