@@ -172,21 +172,7 @@ var intentName = request.body.queryResult.intent.displayName;
     });
     connection.end();
   }
-
- 
-
-
-  var IdAloContato = NULL;
-  var NomeContato = request.body.queryResult.parameters['nome'];
- var EnderecoContato = request.body.queryResult.parameters['endereco'];
-  var TelefoneContato = request.body.queryResult.parameters['telefone'];
-  var MensagemContato = request.body.queryResult.parameters['mensagem'];
-  var MusicaContato = request.body.queryResult.parameters['musica'];
-  //var DateTimeContato = request.body.queryResult.parameters['date_time'];
-  var AnunciadoContato = request.body.queryResult.parameters['anunciado'];
- var query = 'insert into alo values ("'+IdAloContato+'","'+NomeContato +'","'+EnderecoContato+'","'+TelefoneContato+'","'+MensagemContato+'","'+MusicaContato+'","'+DateTimeContato+'","'+AnunciadoContato+'")';
-
-  });
+});
   /*
 if(intentName == "Teste"){
   response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
