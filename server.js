@@ -177,9 +177,10 @@ var intentName = request.body.queryResult.intent.displayName;
 //=======================================================================================
 
 if (intentName == 'Cadastro Planilha'){
-  var string = str.toUpperCase();
   var Nome = request.body.queryResult.parameters['nome'];
+  //var Nome = Nome.toUpperCase(Nome);
   var Telefone = request.body.queryResult.parameters['telefone'];
+  //var Telefone = Telefone.toUpperCase(Telefone);
   
   const data = [{
     Nome: Nome,
@@ -197,6 +198,8 @@ if(intentName == 'Consulta Planilha'){
  response.json({"fulfillmentText" :"Detalhes do cadastro: "+
  "Nome: "+person.Nome+"\n"+
  "Telefone: "+person.Telefone});
+   var Nome = Nome.toUpperCase(Nome);
+   response.json({"fulfillmentText" :"teste"+Nome});
  }
  });
  });
