@@ -184,13 +184,13 @@ if (intentName == 'Cadastro Planilha'){
     Nome: Nome,
     Telefone: Telefone
     }];
-  axios.post ('https://sheetdb.io/api/v1/t7grec1jv015b', data);
+  axios.post ('https://sheetdb.io/api/v1/kszo714faznlo', data);
   response.json({"fulfillmentText": Nome + " Foi adicionado com sucesso!" });
   }
 
 if(intentName == 'Consulta Planilha'){
   var Nome = request.body.queryResult.parameters['nome'];
-  return axios.get("https://sheetdb.io/api/v1/t7grec1jv015b").then(res => {
+  return axios.get("https://sheetdb.io/api/v1/kszo714faznlo").then(res => {
  res.data.map(person => {
  if (person.Nome === Nome){
  response.json({"fulfillmentText" :"Detalhes do cadastro: "+
