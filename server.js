@@ -6,6 +6,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const mysql = require ('mysql');
 const buscaCep = require("busca-cep");
 const nodemailer = require('nodemailer');
+const axios = require ("axios");
 
 const dreams = [
   "Find and count some sheep",
@@ -173,6 +174,20 @@ var intentName = request.body.queryResult.intent.displayName;
     connection.end();
   }
 });
+//=======================================================================================
+if(intentName == 'Cadastro Planilha'){
+ var Pedido = request.body.queryResult.parameters['Pedido'];
+
+ return axios.get("LINK").then(res => {
+ res.data.map(person => {
+ if (person.Pedido === Pedido)
+ response.json({"fulfillmentText" :"Detalhes para o pedido "+Pedido+":"+"\n"+
+ "Nome: "+person.Nome+"\n"+
+ "Status: "+person.Status});
+ });
+ });
+ }
+
   /*
 if(intentName == "Teste"){
   response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
