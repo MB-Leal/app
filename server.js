@@ -175,19 +175,31 @@ var intentName = request.body.queryResult.intent.displayName;
   }
 });
 //=======================================================================================
-if(intentName == 'Cadastro Planilha'){
- var Pedido = request.body.queryResult.parameters['Pedido'];
 
- return axios.get("LINK").then(res => {
+if (intentName == 'Cadastro Planilha'){
+  var Nome = request.body.queryResult.parameters['nome'];
+  var Telefone = request.body.queryResult.parameters['telefone'];
+  
+  const data = [{
+    Nome: Nome,
+    Telefone: Telefone,
+    }];
+  axios.post ('LINK', data);
+ response.json({"fulfillmentText": Nome + " Foi adicionado com sucesso!" })
+ }
+if(intentName == 'Consulta Planilha'){
+  var Nome = request.body.queryResult.parameters['nome'];
+
+ return axios.get("https://sheetdb.io/api/v1/t7grec1jv015b").then(res => {
  res.data.map(person => {
- if (person.Pedido === Pedido)
- response.json({"fulfillmentText" :"Detalhes para o pedido "+Pedido+":"+"\n"+
+ if (person.Nome === Nome){
+ response.json({"fulfillmentText" :"Detalhes do cadastro: "+Nome+":"+"\n"+
  "Nome: "+person.Nome+"\n"+
- "Status: "+person.Status});
+ "Telefone: "+person.Telefone});
+ }
  });
  });
  }
-
   /*
 if(intentName == "Teste"){
   response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
