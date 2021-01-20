@@ -173,7 +173,7 @@ var intentName = request.body.queryResult.intent.displayName;
     });
     connection.end();
   }
-});
+
 //=======================================================================================
 
 if (intentName == 'Cadastro Planilha'){
@@ -182,24 +182,28 @@ if (intentName == 'Cadastro Planilha'){
   
   const data = [{
     Nome: Nome,
-    Telefone: Telefone,
+    Telefone: Telefone
     }];
-  axios.post ('LINK', data);
- response.json({"fulfillmentText": Nome + " Foi adicionado com sucesso!" })
- }
+  axios.post ('https://sheetdb.io/api/v1/t7grec1jv015b', data);
+  response.json({"fulfillmentText": Nome + " Foi adicionado com sucesso!" });
+  }
+
 if(intentName == 'Consulta Planilha'){
   var Nome = request.body.queryResult.parameters['nome'];
-
- return axios.get("https://sheetdb.io/api/v1/t7grec1jv015b").then(res => {
+  return axios.get("https://sheetdb.io/api/v1/t7grec1jv015b").then(res => {
  res.data.map(person => {
  if (person.Nome === Nome){
- response.json({"fulfillmentText" :"Detalhes do cadastro: "+Nome+":"+"\n"+
+ response.json({"fulfillmentText" :"Detalhes do cadastro: "+
  "Nome: "+person.Nome+"\n"+
  "Telefone: "+person.Telefone});
  }
  });
  });
  }
+  
+  
+  
+  });
   /*
 if(intentName == "Teste"){
   response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
