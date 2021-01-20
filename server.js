@@ -192,9 +192,7 @@ if (intentName == 'Cadastro Planilha'){
 
 if(intentName == 'Consulta Planilha'){
   var Nome = request.body.queryResult.parameters['nome'];
-  Nome.toUpperCase();
-  response.json({"fulfillmentText" :"teste: "+ Nome});
-  /*
+  var resNome = Nome.toUpperCase();
   return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
  res.data.map(person => {
  if (person.Nome === Nome){
