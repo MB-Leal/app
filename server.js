@@ -431,7 +431,7 @@ if(intentName == 'Enviar_email'){
   
 });
 */
-
+/*
 app.get("/dreams", (request, response) => {
   // express helps us take JS objects and send them as JSON
   response.json(dreams);
@@ -441,11 +441,12 @@ app.get("/dreams", (request, response) => {
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
+*/
 
 
 
 //---------------------------------------------------------------------    
-/*
+
   if (intentName == "3_Listar") {
     var fnome = request.body.queryResult.parameters["nome"];
     if (fnome == "*")
@@ -575,4 +576,4 @@ const listener = app.listen(process.env.PORT, () => {
 
     return fNomeCanal;
   }
-});*/
+});*
