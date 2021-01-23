@@ -181,13 +181,15 @@ if (intentName == 'Cadastro_Planilha'){
   var resNome = Nome.toUpperCase(Nome);
   var Telefone = request.body.queryResult.parameters['telefone'];
   var resTelefone = Telefone.toUpperCase(Telefone);
+  var dataAtual = Date.now();
   
   const data = [{
     Nome: resNome,
-    Telefone: resTelefone
+    Telefone: resTelefone,
+    Data: dataAtual
     }];  
   axios.post('https://sheetdb.io/api/v1/7nvryedhnduyg',{
-        "data": {"Nome": resNome, "Telefone": resTelefone }
+        "data": {"Nome": resNome, "Telefone": resTelefone, "Data": dataAtual}
     }).then( response => {
     console.log(response.data);
     });
