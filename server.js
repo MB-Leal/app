@@ -236,17 +236,14 @@ if(intentName == 'Consulta_Planilha'){
     
     function getSpreadsheetData(){
   	return axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg');
-  }
-  
-  function welcome(agent) {
-    const nome = agent.parameters.['nome'];
+  }  
+  const nome = request.body.queryResult.parameters['nome'];
     return getSpreadsheetData().then(res => {
     	res.data.map(person => {
             if(person.Nome === nome)
-        	agent.add('Seu nome ${nome}. Telefone: ${person.Telefone}, Data: ${person.Data}');
+        	response.json({"fulfillmentText" : 'Seu nome ${nome}. Telefone: ${person.Telefone}, Data: ${person.Data}'});
         });
     });
-  }
  }
   ///==============================================================================
   
