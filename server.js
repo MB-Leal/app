@@ -181,7 +181,7 @@ if (intentName == 'Cadastro_Planilha'){
   var resNome = Nome.toUpperCase(Nome);
   var Telefone = request.body.queryResult.parameters['telefone'];
   var resTelefone = Telefone.toUpperCase(Telefone);
-  var dataAtual = Date.now();
+  var dataAtual = '=AGORA()';//Date.now();
   
   const data = [{
     Nome: resNome,
