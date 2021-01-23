@@ -203,28 +203,42 @@ if(intentName == 'Consulta_Planilha'){
  response.json({"fulfillmentText" :"Detalhes do cadastro: "+
  "Nome: "+person.Nome+"\n"+
  "Telefone: "+person.Telefone});   
- }
-   /*
-   var contato = ''; 
-      contato = 'Nome: '+results[0].nome+"\n"+'Telefone: '+results[0].telefone; 
-      response.json({"fulfillmentText": contato })
-   for (var x = 0; x < fQtReg; x++) {
-            " 📒 Nome: " +
-            results[x].nome +
-            " CPF: " +
-            results[x].numcpf +
-            " Telefone: " +
-            results[x].telefone +
-            "\n";
-        }*/
-   
-   
+ }   
  });
  });
- }
+ } ///======================================================================================  
+  
+      .then((result) => {
+        log.debug('Received result: ' + JSON.stringify(result, null, 2));
+      })
+      .catch((exception) => {
+        log.debug('Exception: ' + util.inspect(exception));
+        throw exception;
+      });
+  })
+
+  test('Isolated test on axios', () => {
+    const opts = {
+      "url": "https://sheets.googleapis.com/v4/spreadsheets/1ZyOWH3FOjFekhRlAND9m_QQFY6F4IzP-gm-4FBRbG1U",
+      "method": "GET",
+      "headers": {
+        //NOTICE: if enable the following line, the request will fail due to OPTIONS preflight failure
+        //"User-Agent": "google-api-nodejs-client/1.3.1"
+      },
+      "params": {
+        "key": apiKey
+      },
+    }
+
+    return axios.default(opts);
+  })
+
+})
+
+
   
   
-  
+  //================================================================================
   });
   /*
 if(intentName == "Teste"){
