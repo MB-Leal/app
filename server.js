@@ -176,7 +176,7 @@ var intentName = request.body.queryResult.intent.displayName;
 
 //=======================================================================================
 
-if (intentName == 'Cadastro Planilha'){
+if (intentName == 'Cadastro_Planilha'){
   var Nome = request.body.queryResult.parameters['nome'];
   var resNome = Nome.toUpperCase(Nome);
   var Telefone = request.body.queryResult.parameters['telefone'];
@@ -188,14 +188,20 @@ if (intentName == 'Cadastro Planilha'){
     }];
   axios.post ('https://sheetdb.io/api/v1/7nvryedhnduyg', data);
   response.json({"fulfillmentText": resNome + " Foi adicionado com sucesso!" });
+  
+  axios.post('https://sheetdb.io/api/v1/7nvryedhnduyg',{
+        "data": {"Nome": resNome, "Telefone": resTelefone }
+        }).then( response => {
+      console.log(response.data);
+    });
   }
 
-if(intentName == 'Consulta Planilha'){
+if(intentName == 'Consulta_Planilha'){
   var Nome = request.body.queryResult.parameters['nome'];
   var resNome = Nome.toUpperCase();
   return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
  res.data.map(person => {
- if (person.Nome === resNome){
+ if (person.Nome == resNome){
  response.json({"fulfillmentText" :"Detalhes do cadastro: "+
  "Nome: "+person.Nome+"\n"+
  "Telefone: "+person.Telefone});   
