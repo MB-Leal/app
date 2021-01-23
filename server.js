@@ -185,15 +185,13 @@ if (intentName == 'Cadastro_Planilha'){
   const data = [{
     Nome: resNome,
     Telefone: resTelefone
-    }];
-  axios.post ('https://sheetdb.io/api/v1/7nvryedhnduyg', data);
-  response.json({"fulfillmentText": resNome + " Foi adicionado com sucesso!" });
-  
+    }];  
   axios.post('https://sheetdb.io/api/v1/7nvryedhnduyg',{
         "data": {"Nome": resNome, "Telefone": resTelefone }
-        }).then( response => {
-      console.log(response.data);
+    }).then( response => {
+    console.log(response.data);
     });
+  response.json({"fulfillmentText": resNome + " Foi adicionado com sucesso!" });
   }
 
 if(intentName == 'Consulta_Planilha'){
@@ -206,6 +204,20 @@ if(intentName == 'Consulta_Planilha'){
  "Nome: "+person.Nome+"\n"+
  "Telefone: "+person.Telefone});   
  }
+   var contato = ''; 
+      contato = 'Nome: '+results[0].nome+"\n"+'Telefone: '+results[0].telefone; 
+      response.json({"fulfillmentText": contato })
+   for (var x = 0; x < fQtReg; x++) {
+            " 📒 Nome: " +
+            results[x].nome +
+            " CPF: " +
+            results[x].numcpf +
+            " Telefone: " +
+            results[x].telefone +
+            "\n";
+        }
+   
+   
  });
  });
  }
