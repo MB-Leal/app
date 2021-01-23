@@ -209,7 +209,25 @@ if(intentName == 'Consulta_Planilha'){
  }   
  });
  });
- } ///==============================================================================
+ } 
+  
+  if(intentName == 'ListarPlanilha'){
+  var Nome = request.body.queryResult.parameters['nome'];
+  var resNome = Nome.toUpperCase();
+  return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
+ res.data.map(person => {
+   
+ /*if (person.Nome === resNome){
+ response.json({"fulfillmentText" :"Detalhes do cadastro: "+
+ "Nome: "+person.Nome+"\n"+
+ "Telefone: "+person.Telefone+"\n"+
+ "Data Cadastro: "+person.Data });   
+ }*/
+   
+ });
+ });
+ }
+  ///==============================================================================
   
 
 
