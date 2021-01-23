@@ -200,9 +200,10 @@ if(intentName == 'Consulta_Planilha'){
   return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
  res.data.map(person => {
  if (person.Nome === resNome){
- response.json({"fulfillmentText" :"Detalhes do cadastro: "+
- "Nome: "+person.Nome+"\n"+
- "Telefone: "+person.Telefone});   
+ //response.json({"fulfillmentText" :"Detalhes do cadastro: "+
+ //"Nome: "+person.Nome+"\n"+
+ //"Telefone: "+person.Telefone});
+   response.json({"fulfillmentText" : response.data});
  }   
  });
  });
