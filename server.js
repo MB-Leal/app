@@ -199,11 +199,12 @@ if(intentName == 'Consulta_Planilha'){
   var resNome = Nome.toUpperCase();
   return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
  res.data.map(person => {
- if (person.Nome == resNome){
+ if (person.Nome === resNome){
  response.json({"fulfillmentText" :"Detalhes do cadastro: "+
  "Nome: "+person.Nome+"\n"+
  "Telefone: "+person.Telefone});   
  }
+   /*
    var contato = ''; 
       contato = 'Nome: '+results[0].nome+"\n"+'Telefone: '+results[0].telefone; 
       response.json({"fulfillmentText": contato })
@@ -215,7 +216,7 @@ if(intentName == 'Consulta_Planilha'){
             " Telefone: " +
             results[x].telefone +
             "\n";
-        }
+        }*/
    
    
  });
