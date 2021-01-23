@@ -211,7 +211,7 @@ if(intentName == 'Consulta_Planilha'){
  });
  } 
   
-  if(intentName == 'ListarPlanilha'){
+  if(intentName == 'ListarPlanilha'){/*
   var Nome = request.body.queryResult.parameters['nome'];
   var resNome = Nome.toUpperCase();
   return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
@@ -224,7 +224,12 @@ if(intentName == 'Consulta_Planilha'){
  }
    
  });
- });
+ });*/
+    
+    axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg').then(response => criaListaDinamica(response.data))
+    .catch(error => console.log(error))
+     response.json({"fulfillmentText" : criaListaDinamica});
+  }
     
   }
   ///==============================================================================
