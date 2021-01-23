@@ -212,22 +212,10 @@ if(intentName == 'Consulta_Planilha'){
  } 
   
   if(intentName == 'ListarPlanilha'){
-    var lista='';
-    var Nome = request.body.queryResult.parameters['nome'];
-    var resNome = Nome.toUpperCase();
-    
-    axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg/search_or?name[]='+Nome+'&name [] = Steve').then( res => {
-        var lista = response.data;
-      response.json({"fulfillmentText" : "Resposta "+res.data});
-                    });
-    }
-    
-  
   var Nome = request.body.queryResult.parameters['nome'];
   var resNome = Nome.toUpperCase();
   return axios.get("https://sheetdb.io/api/v1/7nvryedhnduyg").then(res => {
- res.data.map(person => {
-   
+ res.data.map(person => {   
  if (person.Nome === resNome){
  response.json({"fulfillmentText" :"Detalhes do cadastro: "+
  "Nome: "+person.Nome+"\n"+
@@ -236,7 +224,7 @@ if(intentName == 'Consulta_Planilha'){
  }
    
  });
- });*/
+ });
     
   }
   ///==============================================================================
