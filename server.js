@@ -212,8 +212,12 @@ if(intentName == 'Consulta_Planilha'){
  } 
   
   if(intentName == 'ListarPlanilha'){
-    /*axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg').then( res => {
-        console.log(response.data);
+    var lista='';
+    var Nome = request.body.queryResult.parameters['nome'];
+    var resNome = Nome.toUpperCase();
+    
+    axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg/search_or?name[]='+Nome+'&name [] = Steve').then( res => {
+        var lista = response.data;
       response.json({"fulfillmentText" : "Resposta "+res.data});
                     });
     }
@@ -234,17 +238,7 @@ if(intentName == 'Consulta_Planilha'){
  });
  });*/
     
-    function getSpreadsheetData(){
-  	return axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg');
-  }  
-  const nome = request.body.queryResult.parameters['nome'];
-    return getSpreadsheetData().then(res => {
-    	res.data.map(person => {
-            if(person.Nome === nome)
-        	response.json({"fulfillmentText" : 'Seu nome ${nome}. Telefone: ${person.Telefone}, Data: ${person.Data}'});
-        });
-    });
- }
+  }
   ///==============================================================================
   
 
