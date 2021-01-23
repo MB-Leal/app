@@ -206,40 +206,15 @@ if(intentName == 'Consulta_Planilha'){
  }   
  });
  });
- } ///======================================================================================  
+ } ///==============================================================================
   
-      .then((result) => {
-        log.debug('Received result: ' + JSON.stringify(result, null, 2));
-      })
-      .catch((exception) => {
-        log.debug('Exception: ' + util.inspect(exception));
-        throw exception;
-      });
-  })
-
-  test('Isolated test on axios', () => {
-    const opts = {
-      "url": "https://sheets.googleapis.com/v4/spreadsheets/1ZyOWH3FOjFekhRlAND9m_QQFY6F4IzP-gm-4FBRbG1U",
-      "method": "GET",
-      "headers": {
-        //NOTICE: if enable the following line, the request will fail due to OPTIONS preflight failure
-        //"User-Agent": "google-api-nodejs-client/1.3.1"
-      },
-      "params": {
-        "key": apiKey
-      },
-    }
-
-    return axios.default(opts);
-  })
-
-})
 
 
   
   
   //================================================================================
   });
+
   /*
 if(intentName == "Teste"){
   response.json({ "fulfillmentText" : "Isso aqui é um Teste." });  
