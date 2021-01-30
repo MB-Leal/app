@@ -230,26 +230,18 @@ if(intentName == 'Consulta_Planilha'){
     //.catch(error => console.log(error))
      //response.json({"fulfillmentText" : criaListaDinamica});
  // }
-  if(intentName == 'InserirNovo'){
-    var dinesh = {
-    first_name: 'Dinesh',
-    last_name: 'Patil'
-};
+  if(intentName == 'InserirNovo'){   
     var produto = request.body.queryResult.parameters['produto'];
     var descricao = request.body.queryResult.parameters['descricao'];
     var tamanho = request.body.queryResult.parameters['tamanho'];
     var preco = request.body.queryResult.parameters['preco'];
     
-    var lista = {
-      produto: 'produto',
-      descricao: 'descricao',
-      tamanho: 'tamanho',
-      preco: 'preco'
-    }
-    
-    var query = connection.query('INSERT INTO produto SET ?', lista,
-    function(err, result) {
-      console.json({"fulfillmentText" : "Employee Id:- " + result.insertId });
+    var query = 'insert into produto values (null"'+produto+'","'+descricao+'","'+tamanho+'","'+preco+'")'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end();
+       var idProduto = results.inserId;
+      response.json({"fulfillmentText" :"Contato Adicionado com Sucesso!" + idProduto});      
     }); 
 connection.end();
   }
