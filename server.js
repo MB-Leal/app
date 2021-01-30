@@ -224,14 +224,38 @@ if(intentName == 'Consulta_Planilha'){
  }
    
  });
- });*/
+ });*/}
     
-    axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg').then(response => criaListaDinamica(response.data))
-    .catch(error => console.log(error))
-     response.json({"fulfillmentText" : criaListaDinamica});
-  }
+    //axios.get('https://sheetdb.io/api/v1/7nvryedhnduyg').then(response => criaListaDinamica(response.data))
+    //.catch(error => console.log(error))
+     //response.json({"fulfillmentText" : criaListaDinamica});
+ // }
+  if(intentName == 'InserirNovo'){
+    var dinesh = {
+    first_name: 'Dinesh',
+    last_name: 'Patil'
+};
+    var produto = request.body.queryResult.parameters['produto'];
+    var descricao = request.body.queryResult.parameters['descricao'];
+    var tamanho = request.body.queryResult.parameters['tamanho'];
+    var preco = request.body.queryResult.parameters['preco'];
     
+    var lista = {
+      produto: 'produto',
+      descricao: 'descricao',
+      tamanho: 'tamanho',
+      preco: 'preco'
+    }
+    
+    var query = connection.query('INSERT INTO produto SET ?', lista,
+    function(err, result) {
+      console.json({"fulfillmentText" : "Employee Id:- " + result.insertId });
+    }); 
+connection.end();
   }
+  
+    
+  });
   ///==============================================================================
   
 /*var fQtReg = results.length;
