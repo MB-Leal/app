@@ -32,12 +32,12 @@ var intentName = request.body.queryResult.intent.displayName;
  });
  //connection.connect();
  connection.connect(function(error) {
-    if (error) {
-      throw error;
+    if (error) { throw error;
       response.json({ fulfillmentText: "⚙ Erro de Conexão com o BD! Tente novamente em instantes!"
       });
     }
   });
+  //INICIA O CÓDIGO DO BOOT  
   
   if(intentName == 'Adicionar_contato'){ 
     console.log('Adicionar Contato') 
@@ -234,9 +234,22 @@ if(intentName == 'Consulta_Planilha'){
   }
   ///==============================================================================
   
-
-
-  
+var fQtReg = results.length;
+        var fLstReg = "";
+        for (var x = 0; x < fQtReg; x++) {
+          fLstReg +=
+            " 📒 Nome: " +
+            results[x].nome +
+            " CPF: " +
+            results[x].numcpf +
+            " Telefone: " +
+            results[x].telefone +
+            "\n";
+        }
+        fLstReg += "---------------------------\n\n";
+        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
+        response.json({ fulfillmentText: fLstReg });
+       
   
   //================================================================================
   });
@@ -465,7 +478,7 @@ if(intentName == 'Enviar_email'){
 });
 */
 
-
+//TERMINA O CÓDIGO DO BOOT
 app.get("/dreams", (request, response) => {
   // express helps us take JS objects and send them as JSON
   response.json(dreams);
