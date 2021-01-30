@@ -234,7 +234,7 @@ if(intentName == 'Consulta_Planilha'){
   }
   ///==============================================================================
   
-var fQtReg = results.length;
+/*var fQtReg = results.length;
         var fLstReg = "";
         for (var x = 0; x < fQtReg; x++) {
           fLstReg +=
@@ -250,9 +250,8 @@ var fQtReg = results.length;
         fLstReg += "☑️ " + fQtReg + " Registros encontrados";
         response.json({ fulfillmentText: fLstReg });
        
-  
+  */
   //================================================================================
-  });
 
   /*
 if(intentName == "Teste"){
