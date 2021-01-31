@@ -246,27 +246,18 @@ if(intentName == 'Consulta_Planilha'){
 connection.end();
   }
   
-    
+  //************************************************************************************
+  
+  if(intentName == "Teste"){
+    var nome = request.body.queryResult.parameters[''];
+  for (var x = 0; x < fQtReg; x++) {
+          fLstReg += " 📒 *Nome:* " + results[x].nome + "\n *Telefone:* " + results[x].telefone + "\n";
+        }
+  }
   });
   ///==============================================================================
   
-/*var fQtReg = results.length;
-        var fLstReg = "";
-        for (var x = 0; x < fQtReg; x++) {
-          fLstReg +=
-            " 📒 Nome: " +
-            results[x].nome +
-            " CPF: " +
-            results[x].numcpf +
-            " Telefone: " +
-            results[x].telefone +
-            "\n";
-        }
-        fLstReg += "---------------------------\n\n";
-        fLstReg += "☑️ " + fQtReg + " Registros encontrados";
-        response.json({ fulfillmentText: fLstReg });
-       
-  */
+
   //================================================================================
 
   /*
