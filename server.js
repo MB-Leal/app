@@ -317,21 +317,20 @@ if(intentName == 'Pesquisar'){
     connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
       connection.end();
-      var idCliente = parseInt(results[0].idCliente);
-      response.json({"fulfillmentText" : idCliente });/*
+      var idCliente = parseInt(results[0].idCliente);      
       var dataPedido = "NOW()";
       var status = "SOLICITADO";
       var valor = "NULL";
       var taxaEntrega = "NULL"
       var pagamento = request.body.queryResult.parameters['pagamento'];
-      var query = 'insert into pedido values (NULL,"'+idCliente+'","'+dataPedido+'","'+status+'","'+valor+'","'+taxaEntrega+'","'+pagamento+'")';
+      var query = 'insert into pedido values ("'+idCliente+'","'+dataPedido+'","'+status+'","'+valor+'","'+taxaEntrega+'","'+pagamento+'")';
       //var query = 'insert into pedido values ("'+idCliente+'","NOW()","SOLICITADO","NULL","NULL","'+pagamento+'")';
       connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
       connection.end();
       //response.json({"fulfillmentText" :"Agora me diga qual o seu pedido pra hoje! pode digitar tudo de uma vez, *quantidade* e o *sabor da pizza*"})
       
-      })*/
+      })
     });
   }  
   
