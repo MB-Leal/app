@@ -313,9 +313,18 @@ if(intentName == 'Pesquisar'){
   }
   if(intentName == 'FazerPedido'){
     var telefone = request.body.queryResult.parameters['telefone'];
-    var query = 'select cliente.idCLiente';
-    
+    var query = 'select cliente.idCLiente from cliente where cliente.telefone= "'+telefone+'"';
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end();
+      var idCliente = results[0].idCliente;
+      var pagamento = request.body.queryResult.parameters['pagamento'];
+      var query = 'insert into pedido values (NULL,"'+idCliente+'",NOW(), SOLICITADO,"'+pagamento+'"NULL, 0,)'; 
+      
+    });
   }  
+  
+  
 });
  //-----------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
