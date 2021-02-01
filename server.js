@@ -276,6 +276,8 @@ if(intentName == 'Pesquisar'){
       connection.end();
     });
   }*/
+  //------------------------------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  
   if(intentName == 'ConsultarCadastro'){ 
     console.log('ConsultarCadastro'); 
     var TelefoneContato = request.body.queryResult.parameters['telefone'];
@@ -292,13 +294,25 @@ if(intentName == 'Pesquisar'){
       } else {      
       var contato = '';
       var idCliente = results[0].idCliente;
-      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone+' Endereço: '+results[0].endereco+" "+results[0].numeroCasa+" "+results[0].complemento; 
+      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone+' Endereço: '+results[0].endereco; 
       response.json({"fulfillmentText": contato+" \n ➡ Digite *pedir* para inciar seu pedido!"})
       }
     }); 
   }
-  
+  if(intentName == 'Cadastrar'){
+    var nome = request.body.queryResult.parameters['nome'];
+    var endereco = request.body.queryResult.parameters['endereco'];
+    var telefone = request.body.queryResult.parameters['telefone'];
+    var query = 'insert into cliente values (NULL,"'+nome+'","'+endereco+'","'+telefone+'")'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end(); 
+      response.json({"fulfillmentText" :"Contato Adicionado com Sucesso!"+ "\n Digite *pedir* para realizar o pedido!" }) 
+    }); 
+    
+  } 
 });
+ //-----------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   ///==============================================================================
   
