@@ -313,20 +313,25 @@ if(intentName == 'Pesquisar'){
   }
   if(intentName == 'FazerPedido'){
     var telefone = request.body.queryResult.parameters['telefone'];
-    var query = 'select cliente.idCLiente from cliente where cliente.telefone= "'+telefone+'"';
+    var query = 'select cliente.idCliente from cliente where cliente.telefone= "'+telefone+'"';
     connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
       connection.end();
-      var idCliente = results[0].idCliente;
+      var idCliente = parseInt(results[0].idCliente);
+      response.json({"fulfillmentText" : idCliente });/*
+      var dataPedido = "NOW()";
+      var status = "SOLICITADO";
+      var valor = "NULL";
+      var taxaEntrega = "NULL"
       var pagamento = request.body.queryResult.parameters['pagamento'];
-      var query = 'insert into pedido values (NULL, 4,"NOW()","'SOLICITADO'","NULL","NULL","NULL","'+pagamento+'")';
+      var query = 'insert into pedido values (NULL,"'+idCliente+'","'+dataPedido+'","'+status+'","'+valor+'","'+taxaEntrega+'","'+pagamento+'")';
       //var query = 'insert into pedido values ("'+idCliente+'","NOW()","SOLICITADO","NULL","NULL","'+pagamento+'")';
       connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
       connection.end();
       //response.json({"fulfillmentText" :"Agora me diga qual o seu pedido pra hoje! pode digitar tudo de uma vez, *quantidade* e o *sabor da pizza*"})
       
-      })
+      })*/
     });
   }  
   
