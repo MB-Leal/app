@@ -254,7 +254,7 @@ connection.end();
           fLstReg += " 📒 *Nome:* " + results[x].nome + "\n *Telefone:* " + results[x].telefone + "\n";
         }
   }
-  });*/
+  });
 
 if(intentName == 'Pesquisar'){ 
   console.log('Listar Contatos');       
@@ -275,7 +275,26 @@ if(intentName == 'Pesquisar'){
       }
       connection.end();
     });
+  }*/
+  if(intentName == 'ConsultarCadastro'){ 
+    console.log('ConsultarCadastro'); 
+    var TelefoneContato = request.body.queryResult.parameters['telefone'];    
+    var query = 'select * from cliente where cliete.telefone = "'+TelefoneContato+'"'; 
+    connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end(); 
+      var contato = '';
+      var idCliente = results[0].idCliente;
+      var nomeCliente
+endereco
+numeroCasa
+complemento
+telefone
+      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone; 
+      response.json({"fulfillmentText": contato }) 
+    }); 
   }
+  
 });
 
   ///==============================================================================
