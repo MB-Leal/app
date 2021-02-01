@@ -278,19 +278,15 @@ if(intentName == 'Pesquisar'){
   }*/
   if(intentName == 'ConsultarCadastro'){ 
     console.log('ConsultarCadastro'); 
-    var TelefoneContato = request.body.queryResult.parameters['telefone'];    
-    var query = 'select * from cliente where cliete.telefone = "'+TelefoneContato+'"'; 
+    var TelefoneContato = request.body.queryResult.parameters['telefone'];
+    //TelefoneContato = parseInt(TelefoneContato);
+    var query = 'select * from cliente where cliente.telefone = "'+TelefoneContato+'"'; 
     connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
       connection.end(); 
       var contato = '';
       var idCliente = results[0].idCliente;
-      var nomeCliente
-endereco
-numeroCasa
-complemento
-telefone
-      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone; 
+      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone+' Endereço: '+results[0].endereco+results[0].numeroCasa+results[0].complemento; 
       response.json({"fulfillmentText": contato }) 
     }); 
   }
