@@ -310,7 +310,12 @@ if(intentName == 'Pesquisar'){
       response.json({"fulfillmentText" :"Contato Adicionado com Sucesso!"+ "\n Digite *pedir* para realizar o pedido!" }) 
     }); 
     
-  } 
+  }
+  if(intentName == 'FazerPedido'){
+    var telefone = request.body.queryResult.parameters['telefone'];
+    var query = 'select cliente.idCLiente';
+    
+  }  
 });
  //-----------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
