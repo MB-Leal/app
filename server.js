@@ -319,7 +319,8 @@ if(intentName == 'Pesquisar'){
       connection.end();
       var idCliente = results[0].idCliente;
       var pagamento = request.body.queryResult.parameters['pagamento'];
-      var query = 'insert into pedido values (NULL,"'+idCliente+'","NOW()","SOLICITADO","NULL","NULL","'+pagamento+'")';
+      var query = 'insert into pedido values (NULL, 4,"NOW()","'SOLICITADO'","NULL","NULL","NULL","'+pagamento+'")';
+      //var query = 'insert into pedido values ("'+idCliente+'","NOW()","SOLICITADO","NULL","NULL","'+pagamento+'")';
       connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
       connection.end();
