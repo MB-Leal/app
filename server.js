@@ -319,8 +319,13 @@ if(intentName == 'Pesquisar'){
       connection.end();
       var idCliente = results[0].idCliente;
       var pagamento = request.body.queryResult.parameters['pagamento'];
-      var query = 'insert into pedido values (NULL,"'+idCliente+'",NOW(), SOLICITADO,"'+pagamento+'"NULL, 0,)'; 
+      var query = 'insert into pedido values (NULL,"'+idCliente+'",NOW(), SOLICITADO,NULL,0,"'+pagamento+'")';
+      connection.query(query, function (error, results, fields) { 
+      if (error) throw error; 
+      connection.end();
+      //response.json({"fulfillmentText" :"Agora me diga qual o seu pedido pra hoje! pode digitar tudo de uma vez, *quantidade* e o *sabor da pizza*"})
       
+      })
     });
   }  
   
