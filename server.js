@@ -286,7 +286,7 @@ if(intentName == 'Pesquisar'){
       connection.end(); 
       var contato = '';
       var idCliente = results[0].idCliente;
-      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone+' Endereço: '+results[0].endereco+results[0].numeroCasa+results[0].complemento; 
+      contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone+' Endereço: '+results[0].endereco+" "+results[0].numeroCasa+" "+results[0].complemento; 
       response.json({"fulfillmentText": contato }) 
     }); 
   }
