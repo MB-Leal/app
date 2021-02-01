@@ -283,11 +283,18 @@ if(intentName == 'Pesquisar'){
     var query = 'select * from cliente where cliente.telefone = "'+TelefoneContato+'"'; 
     connection.query(query, function (error, results, fields) { 
       if (error) throw error; 
-      connection.end(); 
+      connection.end();
+      if (results.length == 0) {
+        response.json({
+          fulfillmentText:
+            "⚠ Não localizei *nenhum* cadastro com esse nome ! "
+        });
+      } else {      
       var contato = '';
       var idCliente = results[0].idCliente;
       contato = 'Nome: '+results[0].nomeCliente+"\n"+'Telefone: '+results[0].telefone+' Endereço: '+results[0].endereco+" "+results[0].numeroCasa+" "+results[0].complemento; 
-      response.json({"fulfillmentText": contato }) 
+      response.json({"fulfillmentText": contato })
+      }
     }); 
   }
   
