@@ -255,6 +255,31 @@ connection.end();
         }
   }
   });
+
+if(intentName == 'Pesquisar'){ 
+  console.log('Listar Contatos');
+  
+    //var TelefoneContato = request.body.queryResult.parameters['telefone'];    
+    var query = 'select * from cadastro '; 
+    connection.query(query, function (error, results, fields) { 
+      //if (error) throw error; 
+      //connection.end(); 
+      if (results.length == 0) {
+        response.json({
+          fulfillmentText: ":warning: Não localizei pedido no seu nome!" });
+      }else {
+        var fQtReg = results.length;
+        var fLstReg = "";
+        for (var x = 0; x < fQtReg; x++) {
+          fLstReg += " :ledger: *Nome:* " + results[x].nome + "\n *Nascimento:* " + results[x].nascimento + "\n" + "\n *Telefone:* " + results[x].telefone + "\n" + "\n *CPF:* " + results[x].cpf + "\n" + "\n *Rua:* " + results[x].rua + "\n" + "\n *Bairro:* " + results[x].bairro + "\n" + "\n *CEP:* " + results[x].cep + "\n" + "\n *Cidade:* " + results[x].cidade + "\n";
+        }
+        response.json({ fulfillmentText: fLstReg });
+      }
+      connection.end();
+    });
+  }
+});
+
   ///==============================================================================
   
 
