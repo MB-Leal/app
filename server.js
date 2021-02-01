@@ -271,8 +271,11 @@ if(intentName == 'Pesquisar'){
           var fQtReg = results.length;
           var fLstReg = "";
           for (var x = 0; x < fQtReg; x++) {
-            fLstReg += " :ledger: *Nome:* " + results[x].nome + "\n *Nascimento:* " + results[x].nascimento + "\n" + "\n *Telefone:* " + results[x].telefone + "\n" + "\n *CPF:* " + results[x].cpf + "\n" + "\n *Rua:* " + results[x].rua + "\n" + "\n *Bairro:* " + results[x].bairro + "\n" + "\n *CEP:* " + results[x].cep + "\n" + "\n *Cidade:* " + results[x].cidade + "\n";
-        }
+            
+            //fLstReg += " :ledger: *Nome:* " + results[x].nome + "\n *Nascimento:* " + results[x].nascimento + "\n" + "\n *Telefone:* " + results[x].telefone + "\n" + "\n *CPF:* " + results[x].cpf + "\n" + "\n *Rua:* " + results[x].rua + "\n" + "\n *Bairro:* " + results[x].bairro + "\n" + "\n *CEP:* " + results[x].cep + "\n" + "\n *Cidade:* " + results[x].cidade + "\n";
+        fLstReg += "*Nome:* " + results[x].nome + "\n *Nascimento:* " + results[x].nascimento + "\n *Telefone:* " + results[x].telefone + "\n *CPF:* " + results[x].cpf +"\n *Rua:* " + results[x].rua + "\n" + "\n *Bairro:* " + results[x].bairro + "\n" + "\n *CEP:* " + results[x].cep +"\n *Cidade:* " + results[x].cidade + "\n";
+     
+          }
         response.json({ fulfillmentText: fLstReg });
       }
       connection.end();
